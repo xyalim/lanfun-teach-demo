@@ -3,7 +3,7 @@ import { viteMockServe } from 'vite-plugin-mock';
 import createVuePlugin from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import svgLoader from 'vite-svg-loader';
-
+import Unocss from 'unocss/vite';
 import path from 'path';
 
 const CWD = process.cwd();
@@ -26,6 +26,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         mockPath: 'mock',
         localEnabled: true,
       }),
+      Unocss(),
       svgLoader(),
     ],
 
