@@ -7,152 +7,37 @@
     </ol>
 
     <div class="text-24px my-50px">
-      <template v-for="(enumItem, key) in typeEnum" :key="key">
+      <!-- <template v-for="(enumItem, key) in typeEnum" :key="key">
         <div class="my-16px">{{ key }}</div>
-      </template>
+      </template> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-type Generics = number;
-// interface：接口
-interface InterfaceDescObj {
-  [key: string]: any;
-}
+// import type { EveryDayTypes } from './modules/EveryDayTypes';
+import everyDayTypesData, { EveryDayTypes } from './modules/EveryDayTypes';
 
-// 可索引的类型
-interface TypeIndexTest {
-  keyNumber: number;
-  keyString: string;
-  keyBoolean: boolean;
-}
-
-type TypeEnum = {
-  number: number;
-  string: string;
-  boolean: boolean;
-  ArrayStyleA: any[];
-  ArrayStyleB: unknown[];
-  // 数组<泛型>
-  ArrayGenericsStyleA: Array<Generics>;
-  ArrayGenericsStyleB: Generics[];
-  ArrayGenericsStyleC: Array<string | number | boolean | null>;
-  TupleStyleA: [number, string, boolean];
-  TupleStyleB?: [number, string, boolean];
-  TupleStyleC?: [boolean, string, number];
-  // 对象任意键值类型表达
-  ObjectStyleA: Record<string, any>;
-  ObjectStyleB?: Record<string, number | boolean>;
-  ObjectStyleC: {
-    [prop: string]: any;
-  };
-  ObjectStyleD: {
-    [key: string]: any;
-  };
-  ObjectStyleE: InterfaceDescObj;
-
-  AsTest: any;
-
-  FuncDeclear?: () => void;
-  FuncDeclearNever?: () => never;
-
-  TypeIndexTestNum: TypeIndexTest['keyNumber'];
-  TypeIndexTestString?: TypeIndexTest['keyString'];
-  TypeIndexTestBoolean: TypeIndexTest['keyBoolean'];
+const typeList = {
+  everyDayTypesData: everyDayTypesData as EveryDayTypes,
 };
 
-const anyTypeObj = {
-  keyNumber: 1,
-  KeyBoolean: true,
-  keyString: '',
-  keyNull: null,
-};
-// 基本数据类型
-const baseDataType = {
-  number: 1,
-  string: '',
-  boolean: true,
-};
-
-// 数组定义
-const ArrayStyle = {
-  ArrayStyleA: [1, 2, '', null],
-  ArrayStyleB: [1, 2, '', null],
-  ArrayGenericsStyleA: [12],
-  ArrayGenericsStyleB: [12],
-  ArrayGenericsStyleC: [12, '', null, true], // 报错
-};
-// 元组类型定义
-const TupleStyle = {
-  TupleStyleA: [1, '', true] as [number, string, boolean],
-  // TupleStyleB: [1, '', true, 1, '', true], // 报错
-  // TupleStyleC: [1, '', true], // 报错
-};
-
-// 对象定义
-const ObjectStyle = {
-  ObjectStyleA: {
-    1: 121,
-    Obj: {},
-    [Symbol(123)]: 123,
-    [Symbol(123)]: 123,
-  },
-  // ObjectStyleB 报错 因为类型中无 Record<string, number | boolean> 无 string
-  // ObjectStyleB: anyTypeObj,
-  ObjectStyleC: anyTypeObj,
-  ObjectStyleD: anyTypeObj,
-  ObjectStyleE: anyTypeObj,
-};
-
-const FuncDeclearStyle = {
-  // 函数定义
-  // FuncDeclear: () => {},
-  // FuncDeclearNever: () => {
-  //   return 1;
-  // },
-};
-
-const typeEnum: TypeEnum = {
-  // 基本数据类型
-  ...baseDataType,
-  // 数组定义
-  ...ArrayStyle,
-  // 元组类型
-  ...TupleStyle,
-  // 对象定义
-  ...ObjectStyle,
-  // 类型断言
-  AsTest: 1 as number,
-
-  ...FuncDeclearStyle,
-
-  TypeIndexTestNum: 1,
-  // TypeIndexTestString: 1, // 报错
-  TypeIndexTestBoolean: true,
-};
-
-type GetValType = Partial<typeof typeEnum>;
-const getValType: GetValType = {
-  number: 1,
-};
-
-const getTypeEnum = () => typeEnum;
 /**
- * 以下语句将会报错！
- * 因为 类型TypeEnum都是必选
- * 若需要部分的类型
- * 需要将属性设置为可选
- * 此时需配合 ts 工具类型 Partial使用
- * type GetFunReturnType = ReturnType<typeof getTypeEnum>;
+ * 类型兼容性
+ * 使用 unknown 比any好
+ * 假如 unknown的数据(testUnknown) 的数据来源(booleanData) 类型已确定
+ * unknown的数据再赋值给其他变量/常量时 假如类型不兼容将会报错 从而确定类型安全
+ * 更详细的类型兼容比较可查看ts官网
+ * https://www.typescriptlang.org/docs/handbook/type-compatibility.html#any-unknown-object-void-undefined-null-and-never-assignability
  */
-type GetFunReturnType = Partial<ReturnType<typeof getTypeEnum>>;
-const getFunReturnTypeTest: GetFunReturnType = {
-  number: 1,
-};
-console.log(typeEnum);
-console.log(getValType);
-console.log(getFunReturnTypeTest);
+const booleanData = true;
+const testUnknown: unknown = booleanData;
+// const testUnknown: any = booleanData;
+const numData: number = testUnknown; // unknown 类型无法赋值给number类型
+
+console.log(typeList);
+console.log(testUnknown);
+console.log(numData);
 </script>
 
 <style lang="less" scoped></style>
