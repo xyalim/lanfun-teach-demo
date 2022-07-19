@@ -16,9 +16,16 @@
 
 <script setup lang="ts">
 type Generics = number;
-
+// interface：接口
 interface InterfaceDescObj {
   [key: string]: any;
+}
+
+// 可索引的类型
+interface TypeIndexTest {
+  keyNumber: number;
+  keyString: string;
+  keyBoolean: boolean;
 }
 
 type TypeEnum = {
@@ -32,11 +39,11 @@ type TypeEnum = {
   ArrayGenericsStyleB: Generics[];
   ArrayGenericsStyleC: Array<string | number | boolean | null>;
   TupleStyleA: [number, string, boolean];
-  TupleStyleB: [number, string, boolean];
-  TupleStyleC: [boolean, string, number];
+  TupleStyleB?: [number, string, boolean];
+  TupleStyleC?: [boolean, string, number];
   // 对象任意键值类型表达
   ObjectStyleA: Record<string, any>;
-  ObjectStyleB: Record<string, number | boolean>;
+  ObjectStyleB?: Record<string, number | boolean>;
   ObjectStyleC: {
     [prop: string]: any;
   };
@@ -46,6 +53,13 @@ type TypeEnum = {
   ObjectStyleE: InterfaceDescObj;
 
   AsTest: any;
+
+  FuncDeclear?: () => void;
+  FuncDeclearNever?: () => never;
+
+  TypeIndexTestNum: TypeIndexTest['keyNumber'];
+  TypeIndexTestString?: TypeIndexTest['keyString'];
+  TypeIndexTestBoolean: TypeIndexTest['keyBoolean'];
 };
 
 const anyTypeObj = {
@@ -54,22 +68,30 @@ const anyTypeObj = {
   keyString: '',
   keyNull: null,
 };
-
-const typeEnum: TypeEnum = {
+// 基本数据类型
+const baseDataType = {
   number: 1,
   string: '',
   boolean: true,
+};
+
+// 数组定义
+const ArrayStyle = {
   ArrayStyleA: [1, 2, '', null],
   ArrayStyleB: [1, 2, '', null],
   ArrayGenericsStyleA: [12],
   ArrayGenericsStyleB: [12],
   ArrayGenericsStyleC: [12, '', null, true], // 报错
+};
+// 元组类型定义
+const TupleStyle = {
+  TupleStyleA: [1, '', true] as [number, string, boolean],
+  // TupleStyleB: [1, '', true, 1, '', true], // 报错
+  // TupleStyleC: [1, '', true], // 报错
+};
 
-  // 元组类型
-  TupleStyleA: [1, '', true],
-  TupleStyleB: [1, '', true, 1, '', true], // 报错
-  TupleStyleC: [1, '', true], // 报错
-
+// 对象定义
+const ObjectStyle = {
   ObjectStyleA: {
     1: 121,
     Obj: {},
@@ -77,12 +99,37 @@ const typeEnum: TypeEnum = {
     [Symbol(123)]: 123,
   },
   // ObjectStyleB 报错 因为类型中无 Record<string, number | boolean> 无 string
-  ObjectStyleB: anyTypeObj,
+  // ObjectStyleB: anyTypeObj,
   ObjectStyleC: anyTypeObj,
   ObjectStyleD: anyTypeObj,
   ObjectStyleE: anyTypeObj,
+};
 
+const FuncDeclearStyle = {
+  // 函数定义
+  // FuncDeclear: () => {},
+  // FuncDeclearNever: () => {
+  //   return 1;
+  // },
+};
+
+const typeEnum: TypeEnum = {
+  // 基本数据类型
+  ...baseDataType,
+  // 数组定义
+  ...ArrayStyle,
+  // 元组类型
+  ...TupleStyle,
+  // 对象定义
+  ...ObjectStyle,
+  // 类型断言
   AsTest: 1 as number,
+
+  ...FuncDeclearStyle,
+
+  TypeIndexTestNum: 1,
+  // TypeIndexTestString: 1, // 报错
+  TypeIndexTestBoolean: true,
 };
 
 type GetValType = Partial<typeof typeEnum>;
