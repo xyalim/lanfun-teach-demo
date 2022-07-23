@@ -24,7 +24,7 @@ const typeList = {
 
 /**
  * 类型兼容性
- * 使用 unknown 比any好
+ * 使用 unknown 比使用 any 好
  * 假如 unknown的数据(testUnknown) 的数据来源(booleanData) 类型已确定
  * unknown的数据再赋值给其他变量/常量时 假如类型不兼容将会报错 从而确定类型安全
  * 更详细的类型兼容比较可查看ts官网
