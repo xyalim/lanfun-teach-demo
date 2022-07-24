@@ -47,34 +47,58 @@ export default [
     path: '/css-demo',
     name: 'css-demo',
     component: Layout,
-    redirect: '/teach-demo/css-demo',
+    redirect: '/css-demo',
     // component: () => import('@/pages/__teach-demo/css-demo/index.vue'),
-    meta: { title: 'css-demo' },
-    // children: [
-    //   {
-    //     path: 'css-demo',
-    //     name: 'css-demo',
-    //     component: () => import('@/pages/__teach-demo/css-demo/index.vue'),
-    //     meta: { title: 'css-demo' },
-    //   },
-    // ],
+    meta: { title: 'css-demo', single: true },
+    children: [
+      {
+        path: '',
+        name: 'css-demo',
+        component: () => import('@/pages/__teach-demo/css-demo/index.vue'),
+        meta: { title: 'css-demo' },
+      },
+    ],
   },
   {
     path: '/ts-demo',
     name: 'ts-demo',
-    component: () => import('@/pages/__teach-demo/ts-demo/index.vue'),
-    meta: { title: 'ts-demo' },
+    component: Layout,
+    meta: { title: 'ts-demo', single: true },
+    children: [
+      {
+        path: '',
+        name: 'ts-demo',
+        component: () => import('@/pages/__teach-demo/ts-demo/index.vue'),
+        meta: { title: 'ts-demo' },
+      },
+    ],
   },
   {
     path: '/vue-demo',
     name: 'vue-demo',
-    component: () => import('@/pages/__teach-demo/vue-demo/index.vue'),
-    meta: { title: 'vue-demo' },
+    component: Layout,
+    meta: { title: 'vue-demo', single: true },
+    children: [
+      {
+        path: '',
+        name: 'vue-demo',
+        component: () => import('@/pages/__teach-demo/vue-demo/index.vue'),
+        meta: { title: 'vue-demo' },
+      },
+    ],
   },
   {
     path: '/vue2-diff-vue3',
-    name: 'Vue2DiffVue3',
-    component: () => import('@/pages/__teach-demo/vue-demo/modules/diff.vue'),
-    meta: { title: 'vue2 & vue3 语法差异' },
+    name: 'vue2-diff-vue3',
+    component: Layout,
+    meta: { title: 'vue2-diff-vue3', single: true },
+    children: [
+      {
+        path: '',
+        name: 'vue2-diff-vue3',
+        component: () => import('@/pages/__teach-demo/vue-demo/modules/diff.vue'),
+        meta: { title: 'vue2 & vue3 语法差异' },
+      },
+    ],
   },
 ];
